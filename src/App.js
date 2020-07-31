@@ -8,23 +8,52 @@ import UserOutput from './UserOutput/UserOutput';
 class App extends Component {
 
   state = {
-    username: 'supermax'
+    person: [
+      { name: 'max', age: 28 },
+      { name: 'mix', age: 12 }
+    ],
+    isShowStuff: false
   };
 
- stateHandlerUsername = (event) => {
-    this.setState({username: event.target.value });
-  };
-  
-  render(){
-    return (
-      <div className="App">
-        <UserInput onchangehandler={this.stateHandlerUsername} firstName={this.state.username}></UserInput>
-        <UserOutput userName={this.state.username} ></UserOutput>
-      </div>
-    )
-   
+
+  toggleShowStuff = () => {
+
+    this.setState({ isShowStuff: !this.state.isShowStuff })
+
   }
 
+  render() {
+
+    let showStuff = null;
+
+    if (this.state.isShowStuff) {
+
+      showStuff = (
+        <div>
+          <UserInput onchangehandler={this.stateHandlerUsername} firstName={this.state.username}></UserInput>
+          <UserOutput userName={this.state.username} ></UserOutput>
+        </div>
+      );
+      
+    }
+
+    return (
+
+      <div className="App">
+
+        <button onClick={this.toggleShowStuff}>show stuff</button>
+
+        {showStuff}
+
+        {this.state.person.map((person,index) => {
+          return ( 
+            <Person key={index} name={person.name} age={person.age}></Person>
+          );
+        })}
+
+      </div>
+    );
+  }
 }
 
 export default App;
